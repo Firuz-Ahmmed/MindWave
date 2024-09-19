@@ -17,11 +17,14 @@ class LoginController extends Controller
         $email = $request->input('email');
         $password = $request->input('password');
         $user = User::where('email', $email)->first();
-        if (!Hash::check($password, $user->password)) {
-            return null;
-        }
-        else{
-            return redirect('create-post');
+        try {
+            if (!Hash::check($password, $user->password)) {
+                return null;
+            } else {
+                return view('create-post');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Something Went Wrong ,Please Try again');
         }
     }
 }

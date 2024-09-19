@@ -28,8 +28,14 @@ class UserController extends Controller
                 $user->name = $request->input('name');
                 $user->email = $request->input('email');
                 $user->password = bcrypt($request->input('password'));
-                $fileName=$request->file('image')->getClientOriginalName();
-                $filePath = $request->file('image')->move(public_path('uploads/images'), $fileName);
+                if ($request->hasFile('image')) {
+                    $file = $request->file('image');
+                    $fileName = time() . '_' . $file->getClientOriginalName();
+                    $file->move(public_path('uploads/images'), $fileName);
+        
+                    // Set the image path on the user model
+                    $user->image = 'uploads/images/' . $fileName;
+                }
                 if (($request->input('confirm-password')) == ($request->input('password'))) {
                     $user->save();
                     return redirect()->route('login');
@@ -39,7 +45,7 @@ class UserController extends Controller
 
             }
         } catch (\Exception $e) {
-            dd("Errors Found");
+            return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
         }
 
 

@@ -95,8 +95,8 @@
                                             <li><a href="latest_news.html">Latest News</a></li>
                                             <li><a href="#">Want to Write?</a>
                                                 <ul class="submenu">
-                                                    <li><a href="blog.html">Login As Author</a></li>
-                                                    <li><a href="blog_details.html">Login As Admin</a></li>
+                                                    <li><a href="{{route('login')}}">Login As Author</a></li>
+                                                    <li><a href="#">Login As Admin</a></li>
 
                                                 </ul>
                                             </li>
